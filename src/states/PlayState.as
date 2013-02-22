@@ -1,12 +1,13 @@
 package states
 {
 	import org.flixel.*;
+	import weapons.*;
 	
 	public class PlayState extends FlxState
 	{
 		public var player:FlxSprite;
 		public var level:FlxTilemap;
-		[Embed(source = '../../maps/tutorialmap.txt', mimeType = 'application/octet-stream')]
+		[Embed(source = '../../maps/box.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
 		
 		override public function create():void
@@ -31,20 +32,17 @@ package states
 		}
 		
 		override public function update():void
-		{
-			player.acceleration.x = 0;
-			if (FlxG.keys.LEFT)
-				player.acceleration.x = -player.maxVelocity.x * 4;
-			if (FlxG.keys.RIGHT)
-				player.acceleration.x = player.maxVelocity.x * 4;
-			if (FlxG.keys.SPACE)// && player.isTouching(FlxObject.FLOOR))
-				player.velocity.y = -player.maxVelocity.y / 2;
-			
-			// hack: please remove once level is imported
-			if (player.y > FlxG.height - player.height) {
-				if (player.velocity.y >= 0) {
-					player.velocity.y = 0;
-				}
+		{	
+			Grapple.grappleCheck(player, level);
+
+			if(player.grappling == 0){
+				player.acceleration.x = 0;
+				if (FlxG.keys.A)
+					player.acceleration.x = -player.maxVelocity.x * 4;
+				if (FlxG.keys.D)
+					player.acceleration.x = player.maxVelocity.x * 4;
+				if (FlxG.keys.SPACE && player.isTouching(FlxObject.FLOOR))
+					player.velocity.y = -player.maxVelocity.y / 2;
 			}
 			
 			super.update();
