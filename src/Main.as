@@ -4,7 +4,8 @@ package
 	import states.*;
 
 	[SWF(width="640", height="480", backgroundColor="#000000")]
-	[Frame(factoryClass="Preloader")]
+	//[Frame(factoryClass="Preloader")]
+	
 
 	public class Main extends FlxGame
 	{
