@@ -33,6 +33,11 @@ package org.flixel
 		public var offset:FlxPoint;
 		
 		/**
+		 * Check if your'e currently grappling.
+		 */
+		public var grappling:uint;
+		
+		/**
 		 * Change the size of your sprite's graphic.
 		 * NOTE: Scale doesn't currently affect collisions automatically,
 		 * you will need to adjust the width, height and offset manually.
