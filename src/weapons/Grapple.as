@@ -14,7 +14,7 @@ package weapons
 		 * a surface that was in the direction we grappled.
 		 */
 		public static function grappleCheck(player:FlxSprite, grapple:FlxSprite, level:FlxTilemap):void {
-			// check if grappling is over
+			// check if grappling hook hit wall, and move player to it.
 			if(grapple.touching != 0){
 				grapple.velocity.x = 0;
 				grapple.velocity.y = 0;
@@ -31,6 +31,7 @@ package weapons
 				player.velocity.x = xvel*ratio;
 				player.velocity.y = yvel*ratio;
 			}
+			// check if player hit a wall to stop grappling
 			if((player.touching & player.grappling) != 0){
 				player.acceleration.y = 200;
 				player.grappling = 0;
@@ -41,8 +42,6 @@ package weapons
 			if(FlxG.keys.PERIOD && player.grappling == false){
 				// only actually grapple if we're pressing a directional key
 				if(FlxG.keys.A || FlxG.keys.D || FlxG.keys.S || FlxG.keys.W){
-					//player.velocity.x = 0;
-					//player.velocity.y = 0;
 					// hack to remove drag. Delete when grappling hook improved.
 					player.acceleration.x = .001;
 					player.acceleration.y = .001;
@@ -51,26 +50,18 @@ package weapons
 				}
 				// add the velocity for a direction, and add that to grappling
 				if(FlxG.keys.A){
-					//player.grappleX -= player.maxVelocity.x;
-					//player.velocity.x -= player.maxVelocity.x*4;
 					grapple.velocity.x -= player.maxVelocity.x*3;
 					player.grappling += FlxObject.LEFT;
 				}
 				if(FlxG.keys.W){
-					//player.grappleY -= player.maxVelocity.y;
-					//player.velocity.y -= player.maxVelocity.x*4;
 					grapple.velocity.y -= player.maxVelocity.y*3;
 					player.grappling += FlxObject.UP;
 				}
 				if(FlxG.keys.D){
-					//player.grappleX += player.maxVelocity.x;
-					//player.velocity.x += player.maxVelocity.x*4;
 					grapple.velocity.x += player.maxVelocity.x*3;
 					player.grappling += FlxObject.RIGHT;
 				}
 				if(FlxG.keys.S){
-					//player.grappleY += player.maxVelocity.y;
-					//player.velocity.y += player.maxVelocity.x*4;
 					grapple.velocity.y += player.maxVelocity.y*3;
 					player.grappling += FlxObject.DOWN;
 				}

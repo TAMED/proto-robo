@@ -31,6 +31,7 @@ package states
 			player.acceleration.y = 200;
 			player.drag.x = player.maxVelocity.x * 4;
 			add(player);
+			// graphic for grappling hook
 			grapple = new FlxSprite(-FlxG.width*2);
 			grapple.makeGraphic(5, 5, 0xffffffff);
 			add(grapple);
