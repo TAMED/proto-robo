@@ -1,12 +1,20 @@
 package states
 {
-	import org.flixel.*;
-	import weapons.*;
+	import org.flixel.FlxG;
+	import org.flixel.FlxObject;
+	import org.flixel.FlxRect;
+	import org.flixel.FlxSprite;
+	import org.flixel.FlxState;
+	import org.flixel.FlxTilemap;
+	
+	import weapons.Grapple;
+	import weapons.Walljump;
 	
 	public class PlayState extends FlxState
 	{
 		public var player:FlxSprite;
 		public var grapple:FlxSprite;
+		public var goal:FlxSprite;
 		public var level:FlxTilemap;
 		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
@@ -35,6 +43,9 @@ package states
 			grapple = new FlxSprite(-FlxG.width*2);
 			grapple.makeGraphic(5, 5, 0xffffffff);
 			add(grapple);
+			goal = new FlxSprite(1130,37);
+			goal.makeGraphic(10,10,0xffEEDC82);
+			add(goal);
 			FlxG.camera.follow(player);
 			level.follow();
 		}
@@ -56,6 +67,9 @@ package states
 					player.acceleration.x = player.maxVelocity.x * 4;
 				if (FlxG.keys.COMMA && player.isTouching(FlxObject.FLOOR))
 					player.velocity.y = -player.maxVelocity.y / 2;
+			}
+			if (FlxG.overlap(player,goal)){
+				FlxG.switchState(new WinState());
 			}
 			
 			super.update();

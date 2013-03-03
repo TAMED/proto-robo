@@ -11,7 +11,7 @@ package states
 			t.size = 16;
 			t.alignment = "center";
 			add(t);
-			t = new FlxText(FlxG.width/2-50,FlxG.height-30,100,"press any key to play");
+			t = new FlxText(FlxG.width/2-50,FlxG.height-30,100,"press enter to play");
 			t.alignment = "center";
 			add(t);
 		}
@@ -20,7 +20,7 @@ package states
 		{
 			super.update();
 			
-			if(FlxG.keys.any())
+			if(FlxG.keys.justPressed("ENTER"))
 			{
 				FlxG.switchState(new PlayState());
 			}
