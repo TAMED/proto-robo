@@ -11,20 +11,17 @@ package states
 			t.size = 16;
 			t.alignment = "center";
 			add(t);
-			t = new FlxText(FlxG.width/2-50,FlxG.height-20,100,"click to play");
+			t = new FlxText(FlxG.width/2-50,FlxG.height-30,100,"press enter to play");
 			t.alignment = "center";
 			add(t);
-			
-			FlxG.mouse.show();
 		}
 
 		override public function update():void
 		{
 			super.update();
 			
-			if(FlxG.mouse.justPressed())
+			if(FlxG.keys.justPressed("ENTER"))
 			{
-				FlxG.mouse.hide();
 				FlxG.switchState(new PlayState());
 			}
 		}

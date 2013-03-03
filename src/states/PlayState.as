@@ -1,14 +1,22 @@
 package states
 {
-	import org.flixel.*;
-	import weapons.*;
+	import org.flixel.FlxG;
+	import org.flixel.FlxObject;
+	import org.flixel.FlxRect;
+	import org.flixel.FlxSprite;
+	import org.flixel.FlxState;
+	import org.flixel.FlxTilemap;
+	
+	import weapons.Grapple;
+	import weapons.Walljump;
 	
 	public class PlayState extends FlxState
 	{
 		public var player:FlxSprite;
 		public var grapple:FlxSprite;
+		public var goal:FlxSprite;
 		public var level:FlxTilemap;
-		[Embed(source = '../../maps/demo2.txt', mimeType = 'application/octet-stream')]
+		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
 		
 		override public function create():void
@@ -20,7 +28,7 @@ package states
 			var dataString:String = new map_bg();
 			var data:Array = dataString.split(",");
 			level = new FlxTilemap();			
-			level.loadMap(FlxTilemap.arrayToCSV(data,78),FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
+			level.loadMap(FlxTilemap.arrayToCSV(data,154),FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
 			add(level);
 			FlxG.worldBounds = new FlxRect(0, 0, level.width, level.height);
 			
@@ -35,6 +43,9 @@ package states
 			grapple = new FlxSprite(-FlxG.width*2);
 			grapple.makeGraphic(5, 5, 0xffffffff);
 			add(grapple);
+			goal = new FlxSprite(1130,37);
+			goal.makeGraphic(10,10,0xffEEDC82);
+			add(goal);
 			FlxG.camera.follow(player);
 			level.follow();
 		}
@@ -42,8 +53,13 @@ package states
 		override public function update():void
 		{	
 			Grapple.grappleCheck(player, grapple, level);
-
+			
 			if(player.grappling == 0){
+				Walljump.walljumpCheck(player, level);
+			}
+			
+
+			if(player.grappling == 0 && player.wallJumping == 0){
 				player.acceleration.x = 0;
 				if (FlxG.keys.A)
 					player.acceleration.x = -player.maxVelocity.x * 4;
@@ -52,9 +68,11 @@ package states
 				if (FlxG.keys.COMMA && player.isTouching(FlxObject.FLOOR))
 					player.velocity.y = -player.maxVelocity.y / 2;
 			}
+			if (FlxG.overlap(player,goal)){
+				FlxG.switchState(new WinState());
+			}
 			
 			super.update();
-			
 			FlxG.collide(level, player);
 			FlxG.collide(grapple, level);
 		}

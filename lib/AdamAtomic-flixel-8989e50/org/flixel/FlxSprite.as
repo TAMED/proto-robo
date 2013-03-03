@@ -38,6 +38,16 @@ package org.flixel
 		public var grappling:uint;
 		
 		/**
+		 * Check if your'e currently wallJumping.
+		 */
+		public var wallJumping:uint;
+		
+		/**
+		 * Walljump X.
+		 */
+		public var wallJumpX:int;
+		
+		/**
 		 * Change the size of your sprite's graphic.
 		 * NOTE: Scale doesn't currently affect collisions automatically,
 		 * you will need to adjust the width, height and offset manually.
