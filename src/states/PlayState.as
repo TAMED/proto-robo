@@ -42,8 +42,13 @@ package states
 		override public function update():void
 		{	
 			Grapple.grappleCheck(player, grapple, level);
-
+			
 			if(player.grappling == 0){
+				Walljump.walljumpCheck(player, level);
+			}
+			
+
+			if(player.grappling == 0 && player.wallJumping == 0){
 				player.acceleration.x = 0;
 				if (FlxG.keys.A)
 					player.acceleration.x = -player.maxVelocity.x * 4;
@@ -54,7 +59,6 @@ package states
 			}
 			
 			super.update();
-			
 			FlxG.collide(level, player);
 			FlxG.collide(grapple, level);
 		}
