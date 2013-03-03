@@ -45,7 +45,7 @@ package org.flixel
 		/**
 		 * Walljump X.
 		 */
-		public var wallJumpX:uint;
+		public var wallJumpX:int;
 		
 		/**
 		 * Change the size of your sprite's graphic.

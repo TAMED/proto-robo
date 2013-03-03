@@ -8,7 +8,7 @@ package states
 		public var player:FlxSprite;
 		public var grapple:FlxSprite;
 		public var level:FlxTilemap;
-		[Embed(source = '../../maps/demo2.txt', mimeType = 'application/octet-stream')]
+		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
 		
 		override public function create():void
@@ -20,7 +20,7 @@ package states
 			var dataString:String = new map_bg();
 			var data:Array = dataString.split(",");
 			level = new FlxTilemap();			
-			level.loadMap(FlxTilemap.arrayToCSV(data,78),FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
+			level.loadMap(FlxTilemap.arrayToCSV(data,154),FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
 			add(level);
 			FlxG.worldBounds = new FlxRect(0, 0, level.width, level.height);
 			
