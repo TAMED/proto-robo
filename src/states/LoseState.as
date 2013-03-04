@@ -4,13 +4,13 @@ package states
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	
-	public class WinState extends FlxState
+	public class LoseState extends FlxState
 	{
 		override public function create():void
 		{
 			var t:FlxText;
 			FlxG.bgColor = 0xff000000;
-			t = new FlxText(0,FlxG.height/2-10,FlxG.width,"You Win!");
+			t = new FlxText(0,FlxG.height/2-10,FlxG.width,"Game Over...\nTry to die less next time.");
 			t.size = 16;
 			t.alignment = "center";
 			add(t);
