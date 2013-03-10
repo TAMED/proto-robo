@@ -2,6 +2,7 @@ package states
 {
 	import controls.Control;
 	import controls.FirstControl;
+	import org.flixel.FlxPoint;
 	
 	import entities.Slime;
 	
@@ -16,6 +17,8 @@ package states
 	import weapons.Grapple;
 	import weapons.Walljump;
 	
+	import controls.*;
+	
 	public class PlayState extends FlxState
 	{
 		public var player:FlxSprite;
@@ -27,10 +30,15 @@ package states
 		public var controlScheme:Control;
 		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
+		private var aimCanvas:FlxSprite;
+		
+		public function PlayState(c:Control)
+		{
+			controlScheme = c;
+		}
 		
 		override public function create():void
 		{
-			
 			FlxG.bgColor = 0xff5d16ad;
 			FlxG.framerate = 60;
 			
@@ -49,6 +57,12 @@ package states
 			player.drag.x = player.maxVelocity.x * 4;
 			player.aimAngle = 0;
 			add(player);
+			
+			// aiming line
+			aimCanvas = new FlxSprite(0, 0);
+			aimCanvas.makeGraphic(FlxG.width, FlxG.height, 0x00000000);
+			aimCanvas.scrollFactor = new FlxPoint(0, 0);
+			add(aimCanvas);
 			
 			// enemies
 			enemies = new FlxGroup();
@@ -70,16 +84,24 @@ package states
 			goal = new FlxSprite(1130,37);
 			goal.makeGraphic(10,10,0xffEEDC82);
 			add(goal);
-			
-			controlScheme = new FirstControl();
-			
+						
 			FlxG.camera.follow(player);
 			level.follow();
 		}
 		
 		override public function update():void
-		{	
+		{
 			curAngle = controlScheme.angleCheck(player);
+
+			// draw aiming line
+			aimCanvas.fill(0x00000000);
+			// todo: actually implement
+			var x:Number = player.getScreenXY().x;
+			var y:Number = player.getScreenXY().y;
+			var len:Number = 2 * FlxG.width;
+			aimCanvas.drawLine(x, y, x + len * Math.cos(curAngle),
+			                         y + len * Math.sin(curAngle), 0xffffffff);
+			
 			Grapple.grappleCheck(player, grapple, level, curAngle, controlScheme);
 			
 			if(player.grappling == 0){
@@ -88,6 +110,7 @@ package states
 			
 
 			if(player.grappling == 0 && player.wallJumping == 0){
+				trace("player moves");
 				controlScheme.movePlayer(player);
 			}
 			if (FlxG.overlap(player,goal)){

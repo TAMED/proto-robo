@@ -21,7 +21,7 @@ package controls
 				if (FlxG.keys.A && !FlxG.keys.D){
 					angle = Math.PI;
 				}
-				if(FlxG.keys.A && FlxG.keys.D && player.facing == FlxObject.LEFT) {
+				if(FlxG.keys.A && FlxG.keys.D && player.isLeft) {
 					angle = Math.PI;
 				}
 			}
@@ -49,15 +49,20 @@ package controls
 		}
 		public function movePlayer(player:FlxSprite):void{
 			player.acceleration.x = 0;
-			if (FlxG.keys.A)
+			if (FlxG.keys.A) {
 				player.acceleration.x = -player.maxVelocity.x * 4;
-			if (FlxG.keys.D)
+				player.isLeft = true;
+			}
+			if (FlxG.keys.D) {
 				player.acceleration.x = player.maxVelocity.x * 4;
-			if (FlxG.keys.SPACE && player.isTouching(FlxObject.FLOOR))
+				player.isLeft = false;
+			}
+			if (FlxG.keys.SPACE && player.isTouching(FlxObject.FLOOR)) {
 				player.velocity.y = -player.maxVelocity.y / 2;
+			}
 		}
 		public function grappleButton():Boolean{
-			return FlxG.keys.J;
+			return FlxG.keys.justPressed("J");
 		}
 		public function walljumpButton():Boolean{
 			return FlxG.keys.K;

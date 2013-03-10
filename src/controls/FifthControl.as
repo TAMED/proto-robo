@@ -1,17 +1,19 @@
 package controls 
 {
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxG;
+	import org.flixel.FlxU;
 	import org.flixel.FlxObject;
 	
 	/**
 	 * ...
 	 * @author Adrian Mullings
 	 */
-	public class FourthControl implements Control 
+	public class FifthControl implements Control 
 	{
 		
-		public function FourthControl() 
+		public function FifthControl() 
 		{
 			FlxG.mouse.show();
 		}
@@ -20,7 +22,9 @@ package controls
 		
 		public function angleCheck(player:FlxSprite):Number 
 		{
-			return (Math.PI * FlxG.mouse.y / FlxG.height) - Math.PI/2;
+			var playerPos:FlxPoint = player.getScreenXY();
+			var mousePos:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
+			return Math.atan2((mousePos.y - playerPos.y),(mousePos.x - playerPos.x));
 		}
 		
 		public function movePlayer(player:FlxSprite):void{
@@ -31,7 +35,7 @@ package controls
 			}
 			if (FlxG.keys.D) {
 				player.acceleration.x = player.maxVelocity.x * 4;
-				player.isLeft = false;
+				player.isLeft = false; 
 			}
 			if (FlxG.keys.W && player.isTouching(FlxObject.FLOOR)) {
 				player.velocity.y = -player.maxVelocity.y / 2;
