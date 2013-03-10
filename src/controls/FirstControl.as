@@ -21,7 +21,7 @@ package controls
 				if (FlxG.keys.A && !FlxG.keys.D){
 					angle = Math.PI;
 				}
-				if(FlxG.keys.A && FlxG.keys.D && player.isLeft) {
+				if(!FlxG.keys.A && !FlxG.keys.D && player.isLeft) {
 					angle = Math.PI;
 				}
 			}

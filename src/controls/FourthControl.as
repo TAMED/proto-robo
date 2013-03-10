@@ -20,7 +20,15 @@ package controls
 		
 		public function angleCheck(player:FlxSprite):Number 
 		{
-			return (Math.PI * FlxG.mouse.y / FlxG.height) - Math.PI/2;
+			var angle:Number = (Math.PI * FlxG.mouse.y / FlxG.height) - Math.PI / 2;
+			if (player.isLeft) {
+				if (angle >= 0) {
+					angle = Math.PI - angle;
+				} else {
+					angle = -Math.PI - angle;
+				}
+			}
+			return angle;
 		}
 		
 		public function movePlayer(player:FlxSprite):void{

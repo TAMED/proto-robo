@@ -95,7 +95,6 @@ package states
 
 			// draw aiming line
 			aimCanvas.fill(0x00000000);
-			// todo: actually implement
 			var x:Number = player.getScreenXY().x;
 			var y:Number = player.getScreenXY().y;
 			var len:Number = 2 * FlxG.width;
@@ -110,7 +109,7 @@ package states
 			
 
 			if(player.grappling == 0 && player.wallJumping == 0){
-				trace("player moves");
+				//trace("player moves");
 				controlScheme.movePlayer(player);
 			}
 			if (FlxG.overlap(player,goal)){

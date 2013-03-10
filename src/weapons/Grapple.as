@@ -9,6 +9,7 @@ package weapons
 	
 	public class Grapple
 	{	
+		private static const EPSILON:Number = 0.000000001;
 		/**
 		 * Checks if we're grappling. Uses player.touching which gives a uint with one bit
 		 * For each surface of the object to check if they're touching. Moves until it hits
@@ -54,17 +55,17 @@ package weapons
 				grapple.y = player.y;
 				grapple.velocity.y = Math.sin(angle)*grapple.maxVelocity.y;
 				grapple.velocity.x = Math.cos(angle)*grapple.maxVelocity.x;
-				trace(angle);
-				if (Math.sin(angle) < 0) {
+				//trace(angle);
+				if (Math.sin(angle) < -EPSILON) {
 					player.grappling += FlxObject.UP;
 				}
-				if (Math.cos(angle) > 0) {
+				if (Math.cos(angle) > EPSILON) {
 					player.grappling += FlxObject.RIGHT;
 				}
-				if (Math.sin(angle) > 0) {
+				if (Math.sin(angle) > EPSILON) {
 					player.grappling += FlxObject.DOWN;
 				}
-				if (Math.cos(angle) < 0) {
+				if (Math.cos(angle) < -EPSILON) {
 					player.grappling += FlxObject.LEFT;
 				}
 			}
