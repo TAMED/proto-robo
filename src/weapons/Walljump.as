@@ -22,7 +22,7 @@ package weapons
 					player.wallJumpX = 0;
 				}
 			}
-			else if (FlxG.keys.M) {
+			else if (FlxG.keys.SPACE) {
 				if (player.isTouching(FlxObject.LEFT)) {
 					player.velocity.y = -player.maxVelocity.y / 2;
 					player.wallJumpX = player.maxVelocity.x;

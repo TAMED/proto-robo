@@ -1,6 +1,10 @@
 package states
 {
+	import controls.Control;
+	import controls.FirstControl;
+	
 	import entities.Slime;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
@@ -19,6 +23,8 @@ package states
 		public var grapple:FlxSprite;
 		public var goal:FlxSprite;
 		public var level:FlxTilemap;
+		public var curAngle:Number;
+		public var controlScheme:Control;
 		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
 		
@@ -55,6 +61,8 @@ package states
 			
 			// graphic for grappling hook
 			grapple = new FlxSprite(-FlxG.width*2);
+			grapple.maxVelocity.x = 500;
+			grapple.maxVelocity.y = 500;
 			grapple.makeGraphic(5, 5, 0xffffffff);
 			add(grapple);
 			
@@ -62,13 +70,16 @@ package states
 			goal.makeGraphic(10,10,0xffEEDC82);
 			add(goal);
 			
+			controlScheme = new FirstControl();
+			
 			FlxG.camera.follow(player);
 			level.follow();
 		}
 		
 		override public function update():void
 		{	
-			Grapple.grappleCheck(player, grapple, level);
+			curAngle = (controlScheme.angleCheck(player)) % (2*Math.PI);
+			Grapple.grappleCheck(player, grapple, level, curAngle);
 			
 			if(player.grappling == 0){
 				Walljump.walljumpCheck(player, level);
@@ -76,13 +87,7 @@ package states
 			
 
 			if(player.grappling == 0 && player.wallJumping == 0){
-				player.acceleration.x = 0;
-				if (FlxG.keys.A)
-					player.acceleration.x = -player.maxVelocity.x * 4;
-				if (FlxG.keys.D)
-					player.acceleration.x = player.maxVelocity.x * 4;
-				if (FlxG.keys.COMMA && player.isTouching(FlxObject.FLOOR))
-					player.velocity.y = -player.maxVelocity.y / 2;
+				controlScheme.movePlayer(player);
 			}
 			if (FlxG.overlap(player,goal)){
 				FlxG.switchState(new WinState());
