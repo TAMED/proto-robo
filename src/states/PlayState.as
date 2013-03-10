@@ -78,7 +78,7 @@ package states
 		
 		override public function update():void
 		{	
-			curAngle = (controlScheme.angleCheck(player)) % (2*Math.PI);
+			curAngle = controlScheme.angleCheck(player);
 			Grapple.grappleCheck(player, grapple, level, curAngle);
 			
 			if(player.grappling == 0){
