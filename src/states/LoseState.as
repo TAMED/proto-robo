@@ -25,7 +25,7 @@ package states
 			
 			if(FlxG.keys.justPressed("ENTER"))
 			{
-				FlxG.switchState(new PlayState());
+				FlxG.switchState(new MenuState());
 			}
 		}
 	}

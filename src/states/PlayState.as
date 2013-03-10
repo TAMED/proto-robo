@@ -1,6 +1,11 @@
 package states
 {
+	import controls.Control;
+	import controls.FirstControl;
+	import org.flixel.FlxPoint;
+	
 	import entities.Slime;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
@@ -12,6 +17,8 @@ package states
 	import weapons.Grapple;
 	import weapons.Walljump;
 	
+	import controls.*;
+	
 	public class PlayState extends FlxState
 	{
 		public var player:FlxSprite;
@@ -19,12 +26,19 @@ package states
 		public var grapple:FlxSprite;
 		public var goal:FlxSprite;
 		public var level:FlxTilemap;
+		public var curAngle:Number;
+		public var controlScheme:Control;
 		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
+		private var aimCanvas:FlxSprite;
+		
+		public function PlayState(c:Control)
+		{
+			controlScheme = c;
+		}
 		
 		override public function create():void
 		{
-			
 			FlxG.bgColor = 0xff5d16ad;
 			FlxG.framerate = 60;
 			
@@ -41,7 +55,14 @@ package states
 			player.maxVelocity.y = 200;
 			player.acceleration.y = 200;
 			player.drag.x = player.maxVelocity.x * 4;
+			player.aimAngle = 0;
 			add(player);
+			
+			// aiming line
+			aimCanvas = new FlxSprite(0, 0);
+			aimCanvas.makeGraphic(FlxG.width, FlxG.height, 0x00000000);
+			aimCanvas.scrollFactor = new FlxPoint(0, 0);
+			add(aimCanvas);
 			
 			// enemies
 			enemies = new FlxGroup();
@@ -55,34 +76,41 @@ package states
 			
 			// graphic for grappling hook
 			grapple = new FlxSprite(-FlxG.width*2);
+			grapple.maxVelocity.x = 500;
+			grapple.maxVelocity.y = 500;
 			grapple.makeGraphic(5, 5, 0xffffffff);
 			add(grapple);
 			
 			goal = new FlxSprite(1130,37);
 			goal.makeGraphic(10,10,0xffEEDC82);
 			add(goal);
-			
+						
 			FlxG.camera.follow(player);
 			level.follow();
 		}
 		
 		override public function update():void
-		{	
-			Grapple.grappleCheck(player, grapple, level);
+		{
+			curAngle = controlScheme.angleCheck(player);
+
+			// draw aiming line
+			aimCanvas.fill(0x00000000);
+			var x:Number = player.getScreenXY().x;
+			var y:Number = player.getScreenXY().y;
+			var len:Number = 2 * FlxG.width;
+			aimCanvas.drawLine(x, y, x + len * Math.cos(curAngle),
+			                         y + len * Math.sin(curAngle), 0xffffffff);
+			
+			Grapple.grappleCheck(player, grapple, level, curAngle, controlScheme);
 			
 			if(player.grappling == 0){
-				Walljump.walljumpCheck(player, level);
+				Walljump.walljumpCheck(player, level, controlScheme);
 			}
 			
 
 			if(player.grappling == 0 && player.wallJumping == 0){
-				player.acceleration.x = 0;
-				if (FlxG.keys.A)
-					player.acceleration.x = -player.maxVelocity.x * 4;
-				if (FlxG.keys.D)
-					player.acceleration.x = player.maxVelocity.x * 4;
-				if (FlxG.keys.COMMA && player.isTouching(FlxObject.FLOOR))
-					player.velocity.y = -player.maxVelocity.y / 2;
+				//trace("player moves");
+				controlScheme.movePlayer(player);
 			}
 			if (FlxG.overlap(player,goal)){
 				FlxG.switchState(new WinState());
