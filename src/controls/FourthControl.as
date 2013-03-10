@@ -20,7 +20,7 @@ package controls
 		
 		public function angleCheck(player:FlxSprite):Number 
 		{
-			return Math.PI/2 - (Math.PI * FlxG.mouse.y / FlxG.height);
+			return (Math.PI * FlxG.mouse.y / FlxG.height) - Math.PI/2;
 		}
 		
 		public function movePlayer(player:FlxSprite):void{

@@ -1,5 +1,6 @@
 package controls 
 {
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxG;
 	import org.flixel.FlxU;
@@ -21,7 +22,9 @@ package controls
 		
 		public function angleCheck(player:FlxSprite):Number 
 		{
-			return FlxU.getAngle(player.origin, FlxG.mouse) / 180 * Math.PI;
+			var playerPos:FlxPoint = player.getScreenXY();
+			var mousePos:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
+			return Math.atan2((mousePos.y - playerPos.y),(mousePos.x - playerPos.x));
 		}
 		
 		public function movePlayer(player:FlxSprite):void{

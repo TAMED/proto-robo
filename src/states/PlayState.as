@@ -2,6 +2,7 @@ package states
 {
 	import controls.Control;
 	import controls.FirstControl;
+	import org.flixel.FlxPoint;
 	
 	import entities.Slime;
 	
@@ -59,6 +60,7 @@ package states
 			// aiming line
 			aimCanvas = new FlxSprite(0, 0);
 			aimCanvas.makeGraphic(FlxG.width, FlxG.height, 0x00000000);
+			aimCanvas.scrollFactor = new FlxPoint(0, 0);
 			add(aimCanvas);
 			
 			// enemies
@@ -93,7 +95,11 @@ package states
 			// draw aiming line
 			aimCanvas.fill(0x00000000);
 			// todo: actually implement
-			aimCanvas.drawLine(player.x, player.y, 1000, player.y, 0xffffffff);
+			var x:Number = player.getScreenXY().x;
+			var y:Number = player.getScreenXY().y;
+			var len:Number = 2 * FlxG.width;
+			aimCanvas.drawLine(x, y, x + len * Math.cos(curAngle),
+			                         y + len * Math.sin(curAngle), 0xffffffff);
 			
 			Grapple.grappleCheck(player, grapple, level, curAngle);
 			
