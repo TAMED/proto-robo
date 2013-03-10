@@ -1,6 +1,8 @@
 package states
 {
 	import org.flixel.*;
+	
+	import controls.*
 
 	public class MenuState extends FlxState
 	{
@@ -11,7 +13,7 @@ package states
 			t.size = 16;
 			t.alignment = "center";
 			add(t);
-			t = new FlxText(FlxG.width/2-50,FlxG.height-30,100,"press enter to play");
+			t = new FlxText(FlxG.width/2-50,FlxG.height-30,100,"Select Controls: 1-5");
 			t.alignment = "center";
 			add(t);
 		}
@@ -20,10 +22,16 @@ package states
 		{
 			super.update();
 			
-			if(FlxG.keys.justPressed("ENTER"))
-			{
-				FlxG.switchState(new PlayState());
-			}
+			if(FlxG.keys.justPressed("FOUR"))
+				start(new FourthControl());
+			
+			if(FlxG.keys.justPressed("FIVE"))
+				start(new FifthControl());
+		}
+		
+		private function start(controls:Control):void
+		{
+			FlxG.switchState(new PlayState(controls));
 		}
 	}
 }

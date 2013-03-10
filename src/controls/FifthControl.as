@@ -2,15 +2,16 @@ package controls
 {
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxG;
+	import org.flixel.FlxU;
 	
 	/**
 	 * ...
 	 * @author Adrian Mullings
 	 */
-	public class FourthControl implements Control 
+	public class FifthControl implements Control 
 	{
 		
-		public function FourthControl() 
+		public function FifthControl() 
 		{
 			FlxG.mouse.show();
 		}
@@ -19,7 +20,7 @@ package controls
 		
 		public function angleCheck(player:FlxSprite):Number 
 		{
-			return Math.PI/2 - (Math.PI * FlxG.mouse.y / FlxG.height);
+			return FlxU.getAngle(player.origin, FlxG.mouse) / 180 * Math.PI;
 		}
 		
 	}

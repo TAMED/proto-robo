@@ -12,6 +12,8 @@ package states
 	import weapons.Grapple;
 	import weapons.Walljump;
 	
+	import controls.*;
+	
 	public class PlayState extends FlxState
 	{
 		public var player:FlxSprite;
@@ -21,10 +23,16 @@ package states
 		public var level:FlxTilemap;
 		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
+		private var ctrls:Control;
+		private var aimCanvas:FlxSprite;
+		
+		public function PlayState(c:Control)
+		{
+			ctrls = c;
+		}
 		
 		override public function create():void
 		{
-			
 			FlxG.bgColor = 0xff5d16ad;
 			FlxG.framerate = 60;
 			
@@ -42,6 +50,11 @@ package states
 			player.acceleration.y = 200;
 			player.drag.x = player.maxVelocity.x * 4;
 			add(player);
+			
+			// aiming line
+			aimCanvas = new FlxSprite(0, 0);
+			aimCanvas.makeGraphic(FlxG.width, FlxG.height, 0x00000000);
+			add(aimCanvas);
 			
 			// enemies
 			enemies = new FlxGroup();
@@ -68,6 +81,11 @@ package states
 		
 		override public function update():void
 		{	
+			// draw aiming line
+			aimCanvas.fill(0x00000000);
+			// todo: actually implement
+			aimCanvas.drawLine(player.x, player.y, 1000, player.y, 0xffffffff);
+			
 			Grapple.grappleCheck(player, grapple, level);
 			
 			if(player.grappling == 0){

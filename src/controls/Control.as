@@ -8,7 +8,7 @@ package controls
 	 */
 	public interface Control 
 	{
-		public static function angleCheck(player:FlxSprite):Number;
+		function angleCheck(player:FlxSprite):Number;
 	}
 	
 }
