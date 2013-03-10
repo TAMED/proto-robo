@@ -22,6 +22,9 @@ package states
 		{
 			super.update();
 			
+			if(FlxG.keys.justPressed("ONE"))
+				start(new FirstControl());
+				
 			if(FlxG.keys.justPressed("FOUR"))
 				start(new FourthControl());
 			

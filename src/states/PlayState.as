@@ -1,6 +1,10 @@
 package states
 {
+	import controls.Control;
+	import controls.FirstControl;
+	
 	import entities.Slime;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
@@ -21,14 +25,15 @@ package states
 		public var grapple:FlxSprite;
 		public var goal:FlxSprite;
 		public var level:FlxTilemap;
+		public var curAngle:Number;
+		public var controlScheme:Control;
 		[Embed(source = '../../maps/demo4.txt', mimeType = 'application/octet-stream')]
 		private var map_bg:Class;
-		private var ctrls:Control;
 		private var aimCanvas:FlxSprite;
 		
 		public function PlayState(c:Control)
 		{
-			ctrls = c;
+			controlScheme = c;
 		}
 		
 		override public function create():void
@@ -68,25 +73,29 @@ package states
 			
 			// graphic for grappling hook
 			grapple = new FlxSprite(-FlxG.width*2);
+			grapple.maxVelocity.x = 500;
+			grapple.maxVelocity.y = 500;
 			grapple.makeGraphic(5, 5, 0xffffffff);
 			add(grapple);
 			
 			goal = new FlxSprite(1130,37);
 			goal.makeGraphic(10,10,0xffEEDC82);
 			add(goal);
-			
+						
 			FlxG.camera.follow(player);
 			level.follow();
 		}
 		
 		override public function update():void
-		{	
+		{
+			curAngle = controlScheme.angleCheck(player);
+
 			// draw aiming line
 			aimCanvas.fill(0x00000000);
 			// todo: actually implement
 			aimCanvas.drawLine(player.x, player.y, 1000, player.y, 0xffffffff);
 			
-			Grapple.grappleCheck(player, grapple, level);
+			Grapple.grappleCheck(player, grapple, level, curAngle);
 			
 			if(player.grappling == 0){
 				Walljump.walljumpCheck(player, level);
@@ -94,13 +103,7 @@ package states
 			
 
 			if(player.grappling == 0 && player.wallJumping == 0){
-				player.acceleration.x = 0;
-				if (FlxG.keys.A)
-					player.acceleration.x = -player.maxVelocity.x * 4;
-				if (FlxG.keys.D)
-					player.acceleration.x = player.maxVelocity.x * 4;
-				if (FlxG.keys.COMMA && player.isTouching(FlxObject.FLOOR))
-					player.velocity.y = -player.maxVelocity.y / 2;
+				controlScheme.movePlayer(player);
 			}
 			if (FlxG.overlap(player,goal)){
 				FlxG.switchState(new WinState());

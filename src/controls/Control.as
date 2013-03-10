@@ -9,6 +9,7 @@ package controls
 	public interface Control 
 	{
 		function angleCheck(player:FlxSprite):Number;
+		function movePlayer(player:FlxSprite):void;
 	}
 	
 }
