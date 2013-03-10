@@ -56,5 +56,11 @@ package controls
 			if (FlxG.keys.SPACE && player.isTouching(FlxObject.FLOOR))
 				player.velocity.y = -player.maxVelocity.y / 2;
 		}
+		public function grappleButton():Boolean{
+			return FlxG.keys.J;
+		}
+		public function walljumpButton():Boolean{
+			return FlxG.keys.K;
+		}
 	}
 }

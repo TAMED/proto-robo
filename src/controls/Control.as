@@ -10,6 +10,8 @@ package controls
 	{
 		function angleCheck(player:FlxSprite):Number;
 		function movePlayer(player:FlxSprite):void;
+		function grappleButton():Boolean;
+		function walljumpButton():Boolean;
 	}
 	
 }

@@ -48,6 +48,12 @@ package org.flixel
 		public var wallJumpX:int;
 		
 		/**
+		 * Angle for weapon
+		 */
+		
+		public var aimAngle:Number;
+		
+		/**
 		 * Change the size of your sprite's graphic.
 		 * NOTE: Scale doesn't currently affect collisions automatically,
 		 * you will need to adjust the width, height and offset manually.

@@ -47,6 +47,7 @@ package states
 			player.maxVelocity.y = 200;
 			player.acceleration.y = 200;
 			player.drag.x = player.maxVelocity.x * 4;
+			player.aimAngle = 0;
 			add(player);
 			
 			// enemies
@@ -79,10 +80,10 @@ package states
 		override public function update():void
 		{	
 			curAngle = controlScheme.angleCheck(player);
-			Grapple.grappleCheck(player, grapple, level, curAngle);
+			Grapple.grappleCheck(player, grapple, level, curAngle, controlScheme);
 			
 			if(player.grappling == 0){
-				Walljump.walljumpCheck(player, level);
+				Walljump.walljumpCheck(player, level, controlScheme);
 			}
 			
 

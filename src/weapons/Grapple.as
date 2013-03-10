@@ -5,6 +5,7 @@ package weapons
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxTilemap;
 	import org.flixel.FlxU;
+	import controls.Control;
 	
 	public class Grapple
 	{	
@@ -13,7 +14,7 @@ package weapons
 		 * For each surface of the object to check if they're touching. Moves until it hits
 		 * a surface that was in the direction we grappled.
 		 */
-		public static function grappleCheck(player:FlxSprite, grapple:FlxSprite, level:FlxTilemap, angle:Number):void {
+		public static function grappleCheck(player:FlxSprite, grapple:FlxSprite, level:FlxTilemap, angle:Number, control:Control):void {
 			// check if grappling hook hit wall, and move player to it.
 			if(grapple.touching != 0){
 				grapple.velocity.x = 0;
@@ -45,7 +46,7 @@ package weapons
 				player.velocity.y = 0;
 				return;
 			}
-			if(FlxG.keys.J && player.grappling == false){
+			if(control.grappleButton() && player.grappling == false){
 				// hack to remove drag. Delete when grappling hook improved.
 				player.acceleration.x = .001;
 				player.acceleration.y = .001;
