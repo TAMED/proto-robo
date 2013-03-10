@@ -1,5 +1,7 @@
 package weapons
 {
+	import controls.Control;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxSprite;
@@ -13,7 +15,7 @@ package weapons
 		 * For each surface of the object to check if they're touching. Moves until it hits
 		 * a surface that was in the direction we grappled.
 		 */
-		public static function walljumpCheck(player:FlxSprite, level:FlxTilemap):void {
+		public static function walljumpCheck(player:FlxSprite, level:FlxTilemap, control:Control):void {
 			if (player.wallJumping > 0) {
 				player.velocity.x = player.wallJumpX;
 				player.wallJumping += 1;
@@ -22,7 +24,7 @@ package weapons
 					player.wallJumpX = 0;
 				}
 			}
-			else if (FlxG.keys.M) {
+			else if (control.walljumpButton()) {
 				if (player.isTouching(FlxObject.LEFT)) {
 					player.velocity.y = -player.maxVelocity.y / 2;
 					player.wallJumpX = player.maxVelocity.x;
